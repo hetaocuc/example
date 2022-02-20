@@ -6,7 +6,7 @@
 <html>
 
 <body>
-
+//
     <?php
     // Set session variables
     $_SESSION["favcolor"] = "green";
