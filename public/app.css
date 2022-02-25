@@ -1,0 +1,40 @@
+body {
+    padding: 5px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+
+}
+
+.product-img {
+
+    width: 50px;
+}
+
+.product-img-view {
+    width: 120px;
+}
+
+.wrapper{
+
+     width: 360px; 
+     padding: 20px; 
+
+     margin: auto;
+}
+
+.content{
+
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+
+}
+
+.form-group{
+
+    margin-top: 1em;
+}
