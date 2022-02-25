@@ -10,6 +10,13 @@
 
     <!-- <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> -->
     <form action="/users/login" method="post">
+
+
+
+            <input type="hidden" name="url"   value="<?php echo $url; ?>">
+
+   
+        
         <div class="form-group">
             <label>Username</label>
             <input type="text" name="username" class="form-control <?php echo (!empty($errors['username_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $user->username; ?>">

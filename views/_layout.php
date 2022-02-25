@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
-
-    <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="/app.css" rel="stylesheet" />
     <title><?php echo $title; ?></title>
@@ -33,36 +30,45 @@
     </svg>
 
     <div class="container">
-    <header class="p-3 bg-dark text-white">
-            
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                            <use xlink:href="#bootstrap"></use>
-                        </svg>
-                    </a>
+        <header class="p-3 bg-dark text-white">
 
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
-                        <li><a href="/home/about" class="nav-link px-2 text-white">About</a></li>
-                        <li><a href="/home/contact" class="nav-link px-2 text-white">Contact</a></li>
-                        <li><a href="/products" class="nav-link px-2 text-white">Admin</a></li>
-                    </ul>
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
 
-                    <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+                    <li><a href="/home/about" class="nav-link px-2 text-white">About</a></li>
+                    <li><a href="/home/contact" class="nav-link px-2 text-white">Contact</a></li>
+                    <li><a href="/products" class="nav-link px-2 text-white">Admin</a></li>
+                </ul>
+
+                <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                         <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
                     </form> -->
 
-                    <div class="text-end">
+                <div class="text-end">
+
+                    <?php
+                    if (empty($session->username)) {
+
+                        echo "<a href='/users/login' type='button' class='btn btn-outline-light me-2' >Login</a>";
+                    } else {
+                        echo "<a href='/users/login' type='button' class='btn btn-outline-light me-2' >$session->username</a>";
+                    }
 
 
-                        <a href="/users/login" type="button" class="btn btn-outline-light me-2" >Login</a>
-                        <a href="/users/signup" type="button" class="btn btn-warning">Sign Up</a>
-                        <a href="/users/signup" type="button" class="btn btn-warning"><?php echo $title; ?></a>
+                    ?>
+                    <!-- <a href="/users/login" type="button" class="btn btn-outline-light me-2" >Login</a> -->
+                    <a href="/users/signup" type="button" class="btn btn-warning">Sign Up</a>
+                    <!-- <a href="/users/signup" type="button" class="btn btn-warning"><?php echo $session->username ?? ''; ?></a> -->
 
-                    </div>
                 </div>
-            
+            </div>
+
         </header>
         <div class="content">
             <?php echo $content ?>
@@ -93,11 +99,6 @@
             </ul>
         </footer>
     </div>
-
-
-
-
-
 
 </body>
 

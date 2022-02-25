@@ -97,12 +97,14 @@ class UsersController
         }
 
 
-
+        $title = 'SignUp';
 
         $router->renderView('users/signup', [
 
             'user' => $user,
-            'errors' => $errors
+            'errors' => $errors,
+            'title' => $title
+
 
         ]);
     }
@@ -112,13 +114,22 @@ class UsersController
 
        // echo var_dump($_SERVER);
 
-        if(CheckLogin::isLogin()){
+       $session = new CheckLogin();
+
+        if($session->loggedin){
 
 
             // Redirect to login page
               header("location: /users/welcome");
              exit;
         }
+
+        $url='';
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+            $url = $_GET['url'] ?? null;
+        }
+
 
          $errors = [
 
@@ -138,6 +149,7 @@ class UsersController
 
             $user->username = trim($_POST["username"]);
             $user->password = trim($_POST["password"]);
+            $url = trim($_POST["url"]);
 
 
 
@@ -173,7 +185,19 @@ class UsersController
                         $_SESSION["username"] = $username;
 
                         // Redirect user to welcome page
-                         header("location: /users/welcome");
+                        //  header("location: /users/welcome");
+                        
+                         if($url){
+
+                            header("location: $url");
+
+                         }
+                         else{
+
+                            header("location: /users/welcome");
+                         }
+
+
                         exit;
 
 
@@ -191,18 +215,25 @@ class UsersController
             }
         }
 
+        $title = 'Login';
         $router->renderView('users/login', [
 
              'user' => $user,
              'errors' => $errors,
-             'userData' => $userData
+             'userData' => $userData,
+             'title' => $title,
+             'url' => $url,
+             'session' => $session
 
         ]);
     }
 
     public function welcome(Router $router){
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+
+
+        if(!$session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -211,9 +242,13 @@ class UsersController
 
         $username = htmlspecialchars($_SESSION["username"]);
 
+
+        $title = 'Welcome';
         $router->renderView('users/welcome', [
 
-            'username' => $username
+            'username' => $username,
+            'title' => $title,
+            'session' => $session
      
 
        ]);
@@ -242,7 +277,8 @@ class UsersController
 
     public function resetpassword(Router $router){
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+        if($session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -310,10 +346,15 @@ class UsersController
 
         }
 
+        $title = 'ResetPassword';
+
         $router->renderView('users/resetpassword', [
 
            'new_password' => $new_password,
-           'errors' => $errors
+           'errors' => $errors,
+           'title' => $title,
+           'session' => $session
+     
      
 
        ]);

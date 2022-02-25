@@ -1,4 +1,4 @@
-<h1>Product CRUD</h1>
+<h1>Products</h1>
 
 <p>
     <a href="/products/create" type="button" class="btn btn-sm btn-success">Add Product</a>

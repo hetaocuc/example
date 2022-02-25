@@ -26,6 +26,7 @@ $router -> post('/products/create', [ProductController::class,'create'] );
 $router -> get('/products/update', [ProductController::class,'update'] );
 $router -> post('/products/update', [ProductController::class,'update'] );
 $router -> post('/products/delete', [ProductController::class,'delete'] );
+$router -> get('/products/details', [ProductController::class,'details'] );
 
 /////////// User
 #####################################################################

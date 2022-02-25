@@ -83,21 +83,9 @@ class Router{
             $$key = $value;
         }
 
-        
-
         ob_start();
         include_once __DIR__."/views/$view.php";
         $content = ob_get_clean();
-
-
-        $title = $view;
-        // if(CheckLogin::isLogin()){
-        //     $logstatus = "logout";
-        // }
-        // else{
-        //     $logstatus = "login";
-        // }
-
 
         include_once __DIR__.'/views/_layout.php';
 

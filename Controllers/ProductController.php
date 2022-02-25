@@ -17,21 +17,26 @@ class ProductController{
         // echo '</pre>';
         //////////////////////////////
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+
+        if(!$session->loggedin){
+
 
             // Redirect to login page
-             header("location: /users/login");
+             header("location: /users/login?url=/products");
              exit;
         }
 
-
+        $title = "Product";
 
         $keyword = $_GET['search'] ?? '';
 
         $products = $router->database->getProducts($keyword);
         $router->renderView('products/index', [
             'products' => $products,
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'title' => $title,
+            'session' => $session
         ]);
 
 
@@ -41,10 +46,13 @@ class ProductController{
     public  function create(Router $router){
 
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+
+        if(!$session->loggedin){
+
 
             // Redirect to login page
-             header("location: /users/login");
+             header("location: /users/login?url=/products");
              exit;
         }
 
@@ -85,9 +93,12 @@ class ProductController{
 
         }
 
+        $title = "Create";
         $router -> renderView('Products/create', [
             'product' => $productData,
-            'errors' => $errors
+            'errors' => $errors,
+            'title' => $title,
+            'session' => $session
         ]);
 
     }
@@ -95,10 +106,12 @@ class ProductController{
 
     public  function update(Router $router){
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+
+        if(!$session->loggedin){
 
             // Redirect to login page
-             header("location: /users/login");
+             header("location: /users/login?url=/products");
              exit;
         }
 
@@ -123,8 +136,12 @@ class ProductController{
             exit;
         }
 
+        $title = "Update";
+
         $router->renderView('products/update', [
-            'product' => $productData
+            'product' => $productData,
+            'title' => $title,
+            'session' => $session
         ]);
     }
 
@@ -132,7 +149,9 @@ class ProductController{
 
     public  function delete(Router $router){
 
-        if(!CheckLogin::isLogin()){
+        $session = new CheckLogin();
+
+        if(!$session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -150,6 +169,25 @@ class ProductController{
             header('Location: /products');
             exit;
         }
+    }
+
+    public  function details(Router $router){
+
+        $id = $_GET['id'];
+
+        $productData = $router->database->getProductById($id);
+
+        $title = "Details";
+
+        $router->renderView('products/details', [
+
+            'productData' => $productData,
+            'title' => $title
+
+
+        ]);
+    
+    
     }
 
 
