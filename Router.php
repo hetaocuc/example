@@ -4,6 +4,7 @@ namespace app;
 use app\Controllers\ProductController;
 use app\Controllers\UsersController;
 use app\Controllers\HomeController;
+use app\helpers\CheckLogin;
 
 class Router{
 
@@ -87,6 +88,17 @@ class Router{
         ob_start();
         include_once __DIR__."/views/$view.php";
         $content = ob_get_clean();
+
+
+        $title = $view;
+        // if(CheckLogin::isLogin()){
+        //     $logstatus = "logout";
+        // }
+        // else{
+        //     $logstatus = "login";
+        // }
+
+
         include_once __DIR__.'/views/_layout.php';
 
 

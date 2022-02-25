@@ -110,10 +110,13 @@ class UsersController
     public function login(Router $router)
     {
 
+       // echo var_dump($_SERVER);
+
         if(CheckLogin::isLogin()){
 
+
             // Redirect to login page
-             header("location: /users/welcome");
+              header("location: /users/welcome");
              exit;
         }
 
@@ -170,7 +173,7 @@ class UsersController
                         $_SESSION["username"] = $username;
 
                         // Redirect user to welcome page
-                        header("location: /users/welcome");
+                         header("location: /users/welcome");
                         exit;
 
 
