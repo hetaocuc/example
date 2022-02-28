@@ -17,13 +17,14 @@ class ProductController{
         // echo '</pre>';
         //////////////////////////////
 
-        $session = new CheckLogin();
 
-        if(!$session->loggedin){
+
+        if(!$router->session->loggedin || ($router->session->role===0)){ // Administrator role=1; Guest role = 0;
 
 
             // Redirect to login page
-             header("location: /users/login?url=/products");
+            header("location: /users/login?url=/products");
+
              exit;
         }
 
@@ -36,7 +37,7 @@ class ProductController{
             'products' => $products,
             'keyword' => $keyword,
             'title' => $title,
-            'session' => $session
+            'session' => $router->session
         ]);
 
 
@@ -46,9 +47,9 @@ class ProductController{
     public  function create(Router $router){
 
 
-        $session = new CheckLogin();
+     
 
-        if(!$session->loggedin){
+        if(!$router->session->loggedin){
 
 
             // Redirect to login page
@@ -98,7 +99,7 @@ class ProductController{
             'product' => $productData,
             'errors' => $errors,
             'title' => $title,
-            'session' => $session
+            'session' => $router->session
         ]);
 
     }
@@ -106,9 +107,9 @@ class ProductController{
 
     public  function update(Router $router){
 
-        $session = new CheckLogin();
+    
 
-        if(!$session->loggedin){
+        if(!$router->session->loggedin){
 
             // Redirect to login page
              header("location: /users/login?url=/products");
@@ -141,7 +142,7 @@ class ProductController{
         $router->renderView('products/update', [
             'product' => $productData,
             'title' => $title,
-            'session' => $session
+            'session' => $router->session
         ]);
     }
 
@@ -149,9 +150,9 @@ class ProductController{
 
     public  function delete(Router $router){
 
-        $session = new CheckLogin();
 
-        if(!$session->loggedin){
+
+        if(!$router->session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -171,24 +172,7 @@ class ProductController{
         }
     }
 
-    public  function details(Router $router){
 
-        $id = $_GET['id'];
-
-        $productData = $router->database->getProductById($id);
-
-        $title = "Details";
-
-        $router->renderView('products/details', [
-
-            'productData' => $productData,
-            'title' => $title
-
-
-        ]);
-    
-    
-    }
 
 
 }

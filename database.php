@@ -99,12 +99,13 @@ class Database
     public function saveUsernamePassword(Users $user){
 
         // Prepare an insert statement
-        $statement = $this->pdo->prepare('INSERT INTO users (username, password) VALUES (:username, :password)');
+        $statement = $this->pdo->prepare('INSERT INTO users (username, password, role) VALUES (:username, :password, :role)');
 
         $param_password = password_hash($user ->password, PASSWORD_DEFAULT); // Creates a password hash
 
         $statement->bindValue(':username', $user->username);
         $statement->bindValue(':password', $param_password);
+        $statement->bindValue(':role', $user->role);
 
         return $statement->execute();
 
@@ -116,7 +117,7 @@ class Database
         public function getUserPassword(Users $user){
 
             // Prepare a select statement
-            $statement = $this->pdo->prepare('SELECT id, username, password FROM users WHERE username = :username');
+            $statement = $this->pdo->prepare('SELECT id, username, password, role FROM users WHERE username = :username');
             // Bind variables to the prepared statement as parameters
 
             $statement->bindValue(":username", $user->username);

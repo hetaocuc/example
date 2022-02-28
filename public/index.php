@@ -7,15 +7,18 @@ use app\Database;
 use app\Controllers\ProductController;
 use app\Controllers\UsersController;
 use app\Controllers\HomeController;
+use app\Controllers\AdminController;
+use app\Controllers\OrderController;
+use app\Controllers\CustomerController;
+
+
+use app\CheckLogin;
 
 $database = new Database();
-///////////////////
-// echo '<pre>';
-// echo var_dump($database);
-// echo '</pre>';
-/////////////////////
+$session = new CheckLogin();
+$router = new Router($database, $session);
 
-$router = new Router($database);
+
 
 ///// Product
 ###############################################################
@@ -26,7 +29,7 @@ $router -> post('/products/create', [ProductController::class,'create'] );
 $router -> get('/products/update', [ProductController::class,'update'] );
 $router -> post('/products/update', [ProductController::class,'update'] );
 $router -> post('/products/delete', [ProductController::class,'delete'] );
-$router -> get('/products/details', [ProductController::class,'details'] );
+
 
 /////////// User
 #####################################################################
@@ -47,8 +50,19 @@ $router -> get('/', [HomeController::class,'index'] );
 $router -> get('/home', [HomeController::class,'index'] );
 $router -> get('/home/about', [HomeController::class,'about'] );
 $router -> get('/home/contact', [HomeController::class,'contact'] );
+$router -> get('/home/details', [HomeController::class,'details'] );
+
+
+/////////// Admin
+#####################################################################
+$router -> get('/admin', [AdminController::class,'index'] );
+$router -> get('/customers', [CustomerController::class,'index'] );
+$router -> get('/orders', [OrderController::class,'index'] );
+
+
 
 
 
 
 $router->resolve();
+

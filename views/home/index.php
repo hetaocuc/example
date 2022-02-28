@@ -1,4 +1,4 @@
-<h1> Home </h1>
+<h1> Home</h1>
 
 <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, culpa! Cumque tenetur odit, laudantium dignissimos suscipit id totam voluptates amet, debitis ullam at tempora sit similique provident harum nesciunt deserunt.
@@ -26,7 +26,7 @@
                 <?php if ($product['image']): ?>
 
                     
-                    <a href="/products/details?id=<?php echo $product['id'] ?>"><img src="/<?php echo $product['image'] ?>" alt="<?php echo $product['title'] ?>" class="home-product-img"></a>
+                    <a href="/home/details?id=<?php echo $product['id'] ?>"><img src="/<?php echo $product['image'] ?>" alt="<?php echo $product['title'] ?>" class="home-product-img"></a>
                 <?php endif; ?>
 
 
@@ -38,7 +38,7 @@
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a href="/products/details?id=<?php echo $product['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                <a href="/home/details?id=<?php echo $product['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                                 <!-- <a href="/products/update?id=<?php echo $product['id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a> -->
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
                             </div>

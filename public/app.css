@@ -132,3 +132,24 @@ label.radio input:checked+span {
 .cart i {
     margin-right: 10px
 }
+
+
+/* admin */
+
+.admin{
+
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+
+}
+
+.admin-sidebar{
+
+    width: 20%;
+}
+
+.admin-content{
+
+    width: 80%;
+}

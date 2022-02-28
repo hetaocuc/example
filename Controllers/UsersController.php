@@ -6,7 +6,7 @@ namespace app\Controllers;
 use app\Router;
 use app\Models\Product;
 use app\Models\Users;
-use app\helpers\CheckLogin;
+use app\CheckLogin;
 
 class UsersController
 {
@@ -114,9 +114,8 @@ class UsersController
 
        // echo var_dump($_SERVER);
 
-       $session = new CheckLogin();
 
-        if($session->loggedin){
+        if($router->session->loggedin){
 
 
             // Redirect to login page
@@ -174,15 +173,17 @@ class UsersController
                     $id = $userData["id"];
                     $username = $userData["username"];
                     $hashed_password = $userData["password"];
+                    $role = $userData["role"];
 
                     if (password_verify($user->password, $hashed_password)) {
                         // Password is correct, so start a new session
-                        session_start();
+                      //  session_start();
 
                         // Store data in session variables
                         $_SESSION["loggedin"] = true;
                         $_SESSION["id"] = $id;
                         $_SESSION["username"] = $username;
+                        $_SESSION["role"] = $role;
 
                         // Redirect user to welcome page
                         //  header("location: /users/welcome");
@@ -223,32 +224,29 @@ class UsersController
              'userData' => $userData,
              'title' => $title,
              'url' => $url,
-             'session' => $session
+             'session' => $router->session
 
         ]);
     }
 
     public function welcome(Router $router){
 
-        $session = new CheckLogin();
 
 
-        if(!$session->loggedin){
+
+        if(!$router->session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
              exit;
         }
 
-        $username = htmlspecialchars($_SESSION["username"]);
-
-
-        $title = 'Welcome';
+         $title = 'Welcome';
         $router->renderView('users/welcome', [
 
-            'username' => $username,
+     
             'title' => $title,
-            'session' => $session
+            'session' => $router->session
      
 
        ]);
@@ -259,7 +257,7 @@ class UsersController
     public function logout(Router $router){
 
         // Initialize the session
-        session_start();
+       // session_start();
         
         // Unset all of the session variables
         $_SESSION = array();
@@ -277,8 +275,8 @@ class UsersController
 
     public function resetpassword(Router $router){
 
-        $session = new CheckLogin();
-        if($session->loggedin){
+ 
+        if($router->session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -330,7 +328,7 @@ class UsersController
                 
                 $id = $_SESSION["id"];
 
-                echo var_dump($id);
+               // echo var_dump($id);
 
                 if($router->database->updateUserPasswordbyId($id, $new_password)){
                     // Password updated successfully. Destroy the session, and redirect to login page
@@ -353,7 +351,7 @@ class UsersController
            'new_password' => $new_password,
            'errors' => $errors,
            'title' => $title,
-           'session' => $session
+           'session' => $router->session
      
      
 

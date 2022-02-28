@@ -12,12 +12,14 @@ class Users{
     public ?string $password = null;
     public ?string $confirm_password = null;
     public DateTime $created_at ;
+    public ?int $role = 0; 
 
     public function __construct()
     {
         $this ->username ='';
         $this ->password ='';
         $this ->confirm_password ='';
+        $this -> role = 0;
 
         
     }

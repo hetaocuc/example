@@ -4,7 +4,8 @@ namespace app;
 use app\Controllers\ProductController;
 use app\Controllers\UsersController;
 use app\Controllers\HomeController;
-use app\helpers\CheckLogin;
+use app\Controllers\AdminController;
+use app\CheckLogin;
 
 class Router{
 
@@ -12,7 +13,9 @@ class Router{
     public array $postRoutes = [];
     public Database $database;
 
-    public function __construct(Database $db){
+    public CheckLogin $session;
+
+    public function __construct(Database $db, CheckLogin $s){
 
         ///////////////////
         // echo '<pre>';
@@ -20,6 +23,7 @@ class Router{
         // echo '</pre>';
         /////////////////////
         $this -> database = $db; 
+        $this -> session = $s;
 
     }
     public function get($url, $fn){
@@ -36,10 +40,11 @@ class Router{
     public function resolve(){
 
          $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
+           
+        //    echo var_dump( $_SERVER);
+        //    echo var_dump($currentUrl);
+
          $method = strtolower($_SERVER['REQUEST_METHOD']);
-
-
-
 
         if($method === 'get'){
 
@@ -71,8 +76,14 @@ class Router{
         }
         else{
 
-            echo "Page not found! found by router";
-            echo var_dump($fn);
+            echo "Page not found! found by router".'<br>';
+            echo '$_SERVER["PATH_INFO"]   ';
+
+            echo  $_SERVER['PATH_INFO'] ?? null;
+            echo '<br>';
+            echo '$_SERVER["REQUEST_URI"]'.'<br>';
+            echo  $_SERVER['REQUEST_URI'] ?? null;
+
         }
 
 
@@ -87,7 +98,10 @@ class Router{
         include_once __DIR__."/views/$view.php";
         $content = ob_get_clean();
 
-        include_once __DIR__.'/views/_layout.php';
+        $layout = explode("/", $view);
+        // echo var_dump($layout[0]);
+        //include_once __DIR__.'/views/_layout.php';
+        include_once __DIR__."/views/$layout[0]/_layout.php";
 
 
 
