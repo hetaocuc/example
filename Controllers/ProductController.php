@@ -28,19 +28,55 @@ class ProductController{
              exit;
         }
 
-        $title = "Product";
 
+          
         $keyword = $_GET['search'] ?? '';
 
-        $products = $router->database->getProducts($keyword);
+        // $products = $router->database->getProducts($keyword);
+
+
+        $total = $router->database->getProductTotal();
+
+        // How many items to list per page
+        $limit = 10;
+
+        // How many pages will there be
+        $pages = ceil($total['COUNT(*)'] / $limit);
+
+        // What page are we currently on?
+        $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+            'options' => array(
+                'default'   => 1,
+                'min_range' => 1,
+            ),
+        )));
+        // Calculate the offset for the query
+        $offset = ($page - 1)  * $limit;
+
+        // Some information to display to the user
+        $start = $offset + 1;
+        $end = min(($offset + $limit), $total);
+
+        $pager = [];
+
+        $pager['pages']= $pages;
+        $pager['page'] = $page;
+        $pager['start'] = $start;
+        $pager['end'] = $end;
+        $pager['total'] = $total['COUNT(*)'];
+        $pager['limit'] = $limit;
+        $pager['offset'] = $offset;
+        
+        $products = $router->database->getPagedProduct( $pager['limit'],$pager['offset']);
+
+        $title = "Product";
         $router->renderView('products/index', [
             'products' => $products,
             'keyword' => $keyword,
+            'pager' => $pager,
             'title' => $title,
             'session' => $router->session
         ]);
-
-
     }
 
 

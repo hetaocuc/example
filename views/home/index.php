@@ -17,17 +17,17 @@
 </p>
 <!-- <?php echo var_dump($products); ?> -->
 
-<div class="album py-5 bg-light">
+<div class="album py-2 bg-light">
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <?php foreach ($products as $i => $product) { ?>
             <div class="col">
                 <div class="card shadow-sm">
-                <?php if ($product['image']): ?>
+                    <?php if ($product['image']) : ?>
 
-                    
-                    <a href="/home/details?id=<?php echo $product['id'] ?>"><img src="/<?php echo $product['image'] ?>" alt="<?php echo $product['title'] ?>" class="home-product-img"></a>
-                <?php endif; ?>
+
+                        <a href="/home/details?id=<?php echo $product['id'] ?>"><img src="/<?php echo $product['image'] ?>" alt="<?php echo $product['title'] ?>" class="home-product-img"></a>
+                    <?php endif; ?>
 
 
                     <div class="card-body">
@@ -48,9 +48,21 @@
                 </div>
             </div>
 
-            <?php } ?>
+        <?php } ?>
 
 
-        </div>
+</div>
+        <?php 
 
+        // echo var_dump($pager);
+         // The "back" link 
+             $prevlink = ($pager['page'] > 1) ? '<a href="?page=1" title="First page">&laquo;</a> <a href="?page=' . ($pager['page'] - 1) . '" title="Previous page">&lsaquo;</a>' : '<span class="disabled">&laquo;</span> <span class="disabled">&lsaquo;</span>';
+          // The "forward" link -->
+             $nextlink = ($pager['page'] < $pager['pages']) ? '<a href="?page=' . ($pager['page'] + 1) . '" title="Next page">&rsaquo;</a> <a href="?page=' . $pager['pages'] . '" title="Last page">&raquo;</a>' : '<span class="disabled">&rsaquo;</span> <span class="disabled">&raquo;</span>' ; 
+          // Display the paging information 
+
+          ?>
+            <div id="paging" class="text-center my-2 pager">
+                <p> <?php echo $prevlink; ?> Page <?php echo $pager['page']; ?> of <?php echo $pager['pages']; ?> pages, displaying <?php echo $pager['start']; ?> -  <?php  echo $pager['end'];?> of <?php echo $pager['total']; ?> results <?php echo $nextlink; ?></p>
+            </div>
 </div>

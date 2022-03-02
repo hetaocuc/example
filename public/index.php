@@ -56,7 +56,7 @@ $router -> get('/home/details', [HomeController::class,'details'] );
 
 /////////// Admin
 #####################################################################
-$router -> get('/admin', [AdminController::class,'index'] );
+$router -> get('/admin', [ProductController::class,'index'] );
 
 $router -> get('/orders', [OrderController::class,'index'] );
 

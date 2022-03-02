@@ -45,3 +45,19 @@
     <?php } ?>
     </tbody>
 </table>
+
+</div>
+        <?php 
+
+        // echo var_dump($pager);
+         // The "back" link 
+             $prevlink = ($pager['page'] > 1) ? '<a href="?page=1" title="First page">&laquo;</a> <a href="?page=' . ($pager['page'] - 1) . '" title="Previous page">&lsaquo;</a>' : '<span class="disabled">&laquo;</span> <span class="disabled">&lsaquo;</span>';
+          // The "forward" link -->
+             $nextlink = ($pager['page'] < $pager['pages']) ? '<a href="?page=' . ($pager['page'] + 1) . '" title="Next page">&rsaquo;</a> <a href="?page=' . $pager['pages'] . '" title="Last page">&raquo;</a>' : '<span class="disabled">&rsaquo;</span> <span class="disabled">&raquo;</span>' ; 
+          // Display the paging information 
+
+          ?>
+            <div id="paging" class="text-center my-2 pager">
+                <p> <?php echo $prevlink; ?> Page <?php echo $pager['page']; ?> of <?php echo $pager['pages']; ?> pages, displaying <?php echo $pager['start']; ?> -  <?php  echo $pager['end'];?> of <?php echo $pager['total']; ?> results <?php echo $nextlink; ?></p>
+            </div>
+</div>

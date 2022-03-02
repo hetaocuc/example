@@ -141,6 +141,7 @@ label.radio input:checked+span {
     display: flex;
     flex-direction: row;
     justify-content:center;
+    flex-wrap: wrap;
 
 }
 
@@ -160,4 +161,8 @@ label.radio input:checked+span {
     padding: 20px; 
 
     margin: auto;
+}
+.pager{
+
+    width: 100%;;
 }

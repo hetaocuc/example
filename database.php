@@ -79,6 +79,31 @@ class Database
     }
 
 
+    public function getProductTotal(){
+
+            $statement = $this->pdo->prepare('SELECT COUNT(*) FROM products' );
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+
+
+    }
+
+    public function getPagedProduct($limit,$offset){
+    // Prepare the paged query
+    $statement = $this->pdo->prepare('SELECT * FROM products ORDER BY create_date DESC  LIMIT :limit  OFFSET :offset' );
+
+    // Bind the query params
+    $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
     public function usernameIsExist($username)
