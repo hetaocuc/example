@@ -232,7 +232,20 @@ class UsersController
     public function welcome(Router $router){
 
 
+        // Define variables and initialize with empty values
 
+        $errors = [
+
+            'full_name_err' => '',
+            'email_err' => '',
+            'mobile_err' => '',
+            'address_err' => '',
+            'city_err' => ''
+
+        ];
+
+        $user = new Users();
+        $user->id = $router->session->id; 
 
         if(!$router->session->loggedin){
 
@@ -241,10 +254,76 @@ class UsersController
              exit;
         }
 
+    
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+            $userData = $router->database->getUserInformation($user->id);
+      
+            $user->full_name = $userData['full_name'];
+            $user->email = $userData['email'];
+            $user->mobile = $userData['mobile'];
+            $user->address = $userData['address'];
+            $user->city = $userData['city'];
+
+
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $user->full_name = trim($_POST['full_name']);
+            $user->email = trim($_POST['email']);
+            $user->mobile = trim($_POST['mobile']);
+            $user->address = trim($_POST['address']);
+            $user->city = trim($_POST['city']);
+
+            // Check if username is empty
+            if (empty($user->full_name)) {
+
+                $errors['full_name_err'] = "Please enter name.";
+            }
+            if (empty($user->email)) {
+
+                $errors['email_err'] = "Please enter email.";
+            }
+            if (empty($user->mobile)) {
+
+                $errors['mobile_err'] = "Please enter mobile.";
+            }
+            if (empty($user->address)) {
+
+                $errors['address_err'] = "Please enter address.";
+            }
+            if (empty($user->city)) {
+
+                $errors['city_err'] = "Please enter city.";
+            }
+
+
+            // Check input errors before inserting in database
+            if (empty($errors['full_name_err']) && empty($errors['email_err']) && empty($errors['mobile_err'])
+                && empty($errors['address_err']) && empty($errors['city_err']) ){
+
+
+                if ($router->database->updateUserInformation($user)) {
+
+                    // Redirect to login page
+                    // header("location: /users/login");
+                    // exit;
+                } else {
+
+                    echo "Oops! Something went wrong. Please try again later.";
+                }
+            }
+
+
+        }
+
+
          $title = 'Welcome';
         $router->renderView('users/welcome', [
 
-     
+            'user' => $user,
+            'errors' => $errors,
             'title' => $title,
             'session' => $router->session
      
@@ -276,7 +355,7 @@ class UsersController
     public function resetpassword(Router $router){
 
  
-        if($router->session->loggedin){
+        if(!$router->session->loggedin){
 
             // Redirect to login page
              header("location: /users/login");
@@ -357,4 +436,8 @@ class UsersController
 
        ]);
     }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+    
 }

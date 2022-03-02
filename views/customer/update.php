@@ -1,18 +1,9 @@
-<h3 class="my-4 mx-auto">Hi, 
-    <b><?php echo $session->username;
-            echo ($session->role===0) ? ' Guest':' Admin'; 
-     ?></b>. Welcome to our site.</h3>
-<p class="my-1 mx-auto">
-    <a href="/users/resetpassword" class="btn btn-warning">Reset Your Password</a>
-    <a href="/users/logout" class="btn btn-danger ml-3">Sign Out of Your Account</a>
-</p>
-
-
 <div class="welcome-wrapper">
     <h2>User Information</h2>
     <p>Please fill this form.</p>
     <!-- <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> -->
-    <form action="/users/welcome" method="post">
+    <form action="/customers/update" method="post">
+        <input type="hidden" name="id"   value="<?php echo $user->id; ?>">          
         <div class="form-group">
             <label>Full name</label>
             <input type="text" name="full_name" class="form-control <?php echo (!empty($errors['full_name_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $user->full_name; ?>">

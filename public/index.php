@@ -38,6 +38,7 @@ $router -> post('/users/signup', [UsersController::class,'signup'] );
 $router -> get('/users/login', [UsersController::class,'login'] );
 $router -> post('/users/login', [UsersController::class,'login'] );
 $router -> get('/users/welcome', [UsersController::class,'welcome'] );
+$router -> post('/users/welcome', [UsersController::class,'welcome'] );
 $router -> get('/users/logout', [UsersController::class,'logout'] );
 $router -> post('/users/resetpassword', [UsersController::class,'resetpassword'] );
 $router -> get('/users/resetpassword', [UsersController::class,'resetpassword'] );
@@ -56,8 +57,18 @@ $router -> get('/home/details', [HomeController::class,'details'] );
 /////////// Admin
 #####################################################################
 $router -> get('/admin', [AdminController::class,'index'] );
-$router -> get('/customers', [CustomerController::class,'index'] );
+
 $router -> get('/orders', [OrderController::class,'index'] );
+
+
+$router -> get('/customers', [CustomerController::class,'index'] );
+$router -> get('/customers/update', [CustomerController::class,'update'] );
+$router -> post('/customers/update', [CustomerController::class,'update'] );
+$router -> post('/customers/delete', [CustomerController::class,'delete'] );
+
+
+
+
 
 
 

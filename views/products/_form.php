@@ -26,5 +26,7 @@
         <label>Product price</label>
         <input type="number" step=".01" name="price" class="form-control" value="<?php echo $product['price'] ?>">
     </div>
+    <div class="form-group">
     <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>

@@ -13,6 +13,13 @@ class Users{
     public ?string $confirm_password = null;
     public DateTime $created_at ;
     public ?int $role = 0; 
+    public ?string $full_name = null;
+    public ?string $email = null;
+    public ?string $mobile = null;
+    public ?string $address = null;
+    public ?string $city = null;
+
+
 
     public function __construct()
     {
@@ -20,6 +27,12 @@ class Users{
         $this ->password ='';
         $this ->confirm_password ='';
         $this -> role = 0;
+        $this -> full_name = '';
+        $this ->email = '';
+        $this ->mobile = '';
+        $this ->address = '';
+        $this ->city = '';
+    
 
         
     }

@@ -120,7 +120,7 @@ class Database
             $statement = $this->pdo->prepare('SELECT id, username, password, role FROM users WHERE username = :username');
             // Bind variables to the prepared statement as parameters
 
-            $statement->bindValue(":username", $user->username);
+            $statement->bindValue(':username', $user->username);
            
             // Attempt to execute the prepared statement
             $statement->execute();
@@ -140,13 +140,72 @@ class Database
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
             // Bind variables to the prepared statement as parameters
 
-            $statement->bindValue(":password", $param_password);
-            $statement->bindValue(":id", $id);
+            $statement->bindValue(':password', $param_password);
+            $statement->bindValue(':id', $id);
 
            
             // Attempt to execute the prepared statement
             return $statement->execute();
 
+
+        }
+
+        public function updateUserInformation($user){
+
+     
+            // Prepare a select statement
+            $statement = $this->pdo->prepare('UPDATE users SET       
+            
+            full_name = :full_name,
+            address = :address,
+            mobile = :mobile ,
+            email =:email ,
+            city = :city WHERE id = :id');
+
+            // Bind variables to the prepared statement as parameters
+
+
+            $statement->bindValue(':id', $user->id);
+            $statement->bindValue(':full_name', $user->full_name);
+            $statement->bindValue(':email', $user->email);
+            $statement->bindValue(':mobile', $user->mobile);
+            $statement->bindValue(':address', $user->address);
+            $statement->bindValue(':city', $user->city);
+
+
+            // Attempt to execute the prepared statement
+            return $statement->execute();
+
+
+        }
+        public function getUserInformation($id)
+        {
+            $statement = $this->pdo->prepare('SELECT * FROM users WHERE id = :id');
+            $statement->bindValue(':id', $id);
+            $statement->execute();
+    
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getUsers($keyword = '')
+        {
+            if ($keyword) {
+                $statement = $this->pdo->prepare('SELECT * FROM users WHERE full_name like :keyword and where role = 0 ORDER BY created_at DESC');
+                $statement->bindValue(":keyword", "%$keyword%");
+            } else {
+                $statement = $this->pdo->prepare('SELECT * FROM users where role = 0 ORDER BY created_at DESC');
+            }
+            $statement->execute();
+    
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function deleteUser($id){
+
+            $statement = $this->pdo->prepare('DELETE FROM users WHERE id = :id');
+            $statement->bindValue(':id', $id);
+
+            return $statement->execute();
 
         }
 

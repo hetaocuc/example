@@ -13,6 +13,7 @@ class CheckLogin{
     public function __construct(){
 
         session_start();
+        
         $this -> username = $_SESSION["username"] ?? null;
         $this -> id= $_SESSION["id"] ?? null;;
         $this -> loggedin =  $_SESSION["loggedin"] ?? false;

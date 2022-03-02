@@ -153,3 +153,11 @@ label.radio input:checked+span {
 
     width: 80%;
 }
+
+.welcome-wrapper{
+
+    width: 60%; 
+    padding: 20px; 
+
+    margin: auto;
+}
