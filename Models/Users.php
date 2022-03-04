@@ -32,8 +32,6 @@ class Users{
         $this ->mobile = '';
         $this ->address = '';
         $this ->city = '';
-    
-
-        
+ 
     }
 }

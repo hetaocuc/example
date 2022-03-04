@@ -4,6 +4,8 @@ namespace app;
 
 use app\models\Product;
 use app\models\Users;
+use app\models\Cart;
+use app\models\Order;
 
 use PDO;
 
@@ -234,5 +236,237 @@ class Database
 
         }
 
+        //////////// Cart 
+        public function getCartLists(Cart $cart){
+
+            $statement = $this->pdo->prepare('SELECT c.product_id, c.user_id, c.quantity, p.* 
+            
+            FROM cart c,  products p
+            WHERE user_id = :user_id and checkout = :checkout and c.product_id = p.id
+            ORDER BY created_at DESC');
+
+
+            $statement->bindValue(":user_id", $cart->user_id);
+            $statement->bindValue(":checkout", $cart->checkout);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+        }
+
+        public function getCartTotalPrice(Cart $cart){
+
+            $statement = $this->pdo->prepare('SELECT c.product_id, c.user_id, c.quantity, p.* 
+            
+            FROM cart c,  products p
+            WHERE user_id = :user_id and checkout = :checkout and c.product_id = p.id and c.sn = :sn
+            ORDER BY created_at DESC');
+
+
+            $statement->bindValue(":user_id", $cart->user_id);
+            $statement->bindValue(":checkout", $cart->checkout);
+            $statement->bindValue(":sn", $cart->sn);
+            $statement->execute();
+            $temp = [];
+            $temp = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+            $price = 0.;
+            foreach($temp as $t){
+
+               $price = $price= $t['price']*$t['quantity'];
+
+            }
+
+     //       echo var_dump($price);
+
+            return $price;
+
+
+        }
+
+
+
+
+
+
+        public function addCart(Cart $cart){
+
+ 
+          // Prepare an insert statement
+          $statement = $this->pdo->prepare('INSERT INTO cart (user_id, product_id, quantity, total_price, checkout, sn, created_at ) 
+          
+          VALUES (:user_id, :product_id, :quantity, :total_price, :checkout, :sn, :created_at)');
+                     
+            $statement->bindValue(":user_id", $cart->user_id);
+            $statement->bindValue(":product_id",$cart->product_id);
+            $statement->bindValue(":quantity", $cart->quantity);
+            $statement->bindValue(":total_price",$cart->total_price);
+            $statement->bindValue(":checkout", $cart->checkout);
+            $statement->bindValue(":sn", $cart->sn);
+            $statement->bindValue(":created_at", date('Y-m-d H:i:s'));
+ 
+            return $statement->execute();
+        }
+
+
+        public function deleteCart(Cart $cart){
+
+            // Prepare an insert statement
+            $statement = $this->pdo->prepare('DELETE FROM cart 
+            
+            WHERE user_id = :user_id and product_id = :product_id and checkout = :checkold and sn = :snold');
+                       
+              $statement->bindValue(":user_id", $cart->user_id);
+              $statement->bindValue(":product_id",$cart->product_id);
+              $statement->bindValue(":checkold",0);
+              $statement->bindValue(":snold", 'null');
+
+              return $statement->execute();
+          }
+
+
+          public function updateCartQuantity(Cart $cart){
+
+            // Prepare an insert statement
+            $statement = $this->pdo->prepare('UPDATE cart SET  
+            quantity = :quantity
+            WHERE user_id = :user_id and product_id = :product_id');
+                       
+              $statement->bindValue(":user_id", $cart->user_id);
+              $statement->bindValue(":product_id",$cart->product_id);
+              $statement->bindValue(":quantity",$cart->quantity);
+
+              return $statement->execute();
+          }
+
+
+          public function getCartQuantity(Cart $cart){
+
+            // Prepare an insert statement
+
+
+
+            $statement = $this->pdo->prepare(' SELECT quantity FROM cart 
+            WHERE user_id = :user_id and checkout = :checkout and product_id = :product_id')  ;
+           
+
+              $statement->bindValue(":user_id",  $cart->user_id);
+              $statement->bindValue(":product_id",$cart->product_id);
+              $statement->bindValue(":checkout", $cart->checkout);
+              $statement->execute();
+
+             $temp = $statement->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($temp)){
+                return $temp[0]['quantity'];
+
+            }
+            else{
+
+                return 0;
+            }
+
+
+          }
+
+          public function cartCheckout(Cart $cart){
+
+            // Prepare an insert statement
+            $statement = $this->pdo->prepare('UPDATE cart SET  
+            checkout = :checkout,
+            sn = :sn
+            WHERE user_id = :user_id and product_id = :product_id and checkout = :checkold and sn = :snold');
+                       
+              $statement->bindValue(":user_id", $cart->user_id);
+              $statement->bindValue(":product_id",$cart->product_id);
+              $statement->bindValue(":checkout",$cart->checkout);
+              $statement->bindValue(":sn", $cart->sn);
+              $statement->bindValue(":checkold",0);
+              $statement->bindValue(":snold", 'null');
+
+              return $statement->execute();
+          }
+
+
+          public function getCartOrderDetail(Cart $cart){
+
+            $statement = $this->pdo->prepare('SELECT c.product_id, c.user_id, c.quantity, p.* 
+            
+            FROM cart c,  products p
+            WHERE user_id = :user_id and SN = :sn and c.product_id = p.id
+            ORDER BY created_at DESC');
+
+
+            $statement->bindValue(":user_id", $cart->user_id);
+            $statement->bindValue(":sn", $cart->sn);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+        }
+          
+
+          ///////////////////////////////////////////////////////////////////////
+
+          public function addOrder(Order $order){
+
+            // Prepare an insert statement
+          $statement = $this->pdo->prepare('INSERT INTO orders (order_id,user_id, total_price, payed, created_at) 
+          
+          VALUES (:order_id, :user_id, :total_price, :payed, :created_at)');
+                     
+            $statement->bindValue(":order_id", $order->order_id);
+            $statement->bindValue(":user_id",$order->user_id);
+            $statement->bindValue(":total_price", $order->total_price);
+            $statement->bindValue(":payed",$order->payed);
+            $statement->bindValue(":created_at", date('Y-m-d H:i:s'));
+ 
+            return $statement->execute();
+
+
+          }
+
+          public function getOrderLists(Order $order){
+
+            $statement = $this->pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id ORDER BY created_at DESC');
+            $statement->bindValue(":user_id", $order->user_id);
+  
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+        }
+
+        public function getAllOrdersUser($keyword = ''){
+            if ($keyword) {
+
+                $statement = $this->pdo->prepare('SELECT o.*, u.username, u.full_name, u.mobile 
+                
+                FROM orders o,  users u
+                WHERE o.user_id = u.id and o.order_id like :keyword
+                ORDER BY o.created_at DESC');
+                $statement->bindValue(":keyword", "%$keyword%");
+    
+            } 
+            else {
+                $statement = $this->pdo->prepare('SELECT o.*, u.username, u.full_name, u.mobile 
+                
+                FROM orders o,  users u
+                WHERE o.user_id = u.id
+                ORDER BY o.created_at DESC');
+            }
+    
+            $statement->execute();
+    
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+        }
+
+
+          
 
 }

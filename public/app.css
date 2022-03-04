@@ -162,6 +162,14 @@ label.radio input:checked+span {
 
     margin: auto;
 }
+
+
+.welcome-button{
+
+    display: flex;
+
+
+}
 .pager{
 
     width: 100%;;

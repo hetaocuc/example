@@ -1,11 +1,15 @@
-<h3 class="my-4 mx-auto">Hi, 
+<h3 class="my-4 mx-auto">Welcome, 
     <b><?php echo $session->username;
             echo ($session->role===0) ? ' Guest':' Admin'; 
-     ?></b>. Welcome to our site.</h3>
-<p class="my-1 mx-auto">
-    <a href="/users/resetpassword" class="btn btn-warning">Reset Your Password</a>
-    <a href="/users/logout" class="btn btn-danger ml-3">Sign Out of Your Account</a>
-</p>
+     ?></b>.</h3>
+<div class="my-1 mx-auto welcome-button">
+    <div>    <a href="/cart" class="btn btn-warning">Cart</a></div>
+
+    <a href="/order" class="btn btn-danger ml-3">Order</a>
+    <a href="/users/resetpassword" class="btn btn-warning">Password</a>
+    <a href="/users/logout" class="btn btn-danger ml-3">Sign Out</a>
+
+</div>
 
 
 <div class="welcome-wrapper">

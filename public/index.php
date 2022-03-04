@@ -10,6 +10,7 @@ use app\Controllers\HomeController;
 use app\Controllers\AdminController;
 use app\Controllers\OrderController;
 use app\Controllers\CustomerController;
+use app\Controllers\CartController;
 
 
 use app\CheckLogin;
@@ -57,8 +58,9 @@ $router -> get('/home/details', [HomeController::class,'details'] );
 /////////// Admin
 #####################################################################
 $router -> get('/admin', [ProductController::class,'index'] );
+$router -> get('/admin/orders', [AdminController::class,'orders'] );
 
-$router -> get('/orders', [OrderController::class,'index'] );
+
 
 
 $router -> get('/customers', [CustomerController::class,'index'] );
@@ -67,11 +69,18 @@ $router -> post('/customers/update', [CustomerController::class,'update'] );
 $router -> post('/customers/delete', [CustomerController::class,'delete'] );
 
 
+/////////// Cart
+#####################################################################
+$router -> post('/cart/add', [CartController::class,'add'] );
+$router -> get('/cart', [CartController::class,'index'] );
+$router -> post('/cart/delete', [CartController::class,'delete'] );
+$router -> post('/cart/checkout', [CartController::class,'checkout'] );
 
 
-
-
-
+/////////// Cart
+#####################################################################
+$router -> get('/order', [OrderController::class,'index'] );
+$router -> get('/order/detail', [OrderController::class,'detail'] );
 
 
 

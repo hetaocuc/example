@@ -119,3 +119,43 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
+CREATE TABLE `cart` (
+   `user_id`   INT NOT NULL ,
+   `product_id`  int(11) NOT NULL, 
+   `quantity` int NOT NULL,
+   `total_price` float NOT NULL,
+   `SN` varchar(256) NOT NULL,
+   `checkout` Boolean NOT NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(product_id, user_id, sn, checkout) 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `cart`
+ADD CONSTRAINT FK_Product
+FOREIGN KEY (product_id) REFERENCES Products(id);
+
+ALTER TABLE `cart`
+ADD CONSTRAINT FK_Users
+FOREIGN KEY (user_id) REFERENCES Users(id);
+
+ALTER TABLE `cart`
+ADD CONSTRAINT FK_Orders
+FOREIGN KEY (SN) REFERENCES Orders(order_id);
+
+ALTER TABLE `cart`
+DROP CONSTRAINT FK_Orders;
+
+
+
+CREATE TABLE `Orders` (
+   `order_id`   varchar(256) NOT NULL ,
+   `user_id`  int(11) NOT NULL, 
+   `total_price` float NOT NULL,
+   `payed` Boolean NOT NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(order_id) 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `orders`
+ADD CONSTRAINT FK_Order_Users
+FOREIGN KEY (user_id) REFERENCES Users(id);

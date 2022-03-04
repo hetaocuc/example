@@ -40,7 +40,10 @@
                             <div class="btn-group">
                                 <a href="/home/details?id=<?php echo $product['id'] ?>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                                 <!-- <a href="/products/update?id=<?php echo $product['id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a> -->
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                                <form method="post" action="/cart/add" style="display: inline-block">
+                                    <input type="hidden" name="id" value="<?php echo $product['id'] ?>" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Add to Cart</button>
+                                </form>
                             </div>
                             <small class="text-muted">9 mins</small>
                         </div>
@@ -51,18 +54,18 @@
         <?php } ?>
 
 
-</div>
-        <?php 
+    </div>
+    <?php
 
-        // echo var_dump($pager);
-         // The "back" link 
-             $prevlink = ($pager['page'] > 1) ? '<a href="?page=1" title="First page">&laquo;</a> <a href="?page=' . ($pager['page'] - 1) . '" title="Previous page">&lsaquo;</a>' : '<span class="disabled">&laquo;</span> <span class="disabled">&lsaquo;</span>';
-          // The "forward" link -->
-             $nextlink = ($pager['page'] < $pager['pages']) ? '<a href="?page=' . ($pager['page'] + 1) . '" title="Next page">&rsaquo;</a> <a href="?page=' . $pager['pages'] . '" title="Last page">&raquo;</a>' : '<span class="disabled">&rsaquo;</span> <span class="disabled">&raquo;</span>' ; 
-          // Display the paging information 
+    // echo var_dump($pager);
+    // The "back" link 
+    $prevlink = ($pager['page'] > 1) ? '<a href="?page=1" title="First page">&laquo;</a> <a href="?page=' . ($pager['page'] - 1) . '" title="Previous page">&lsaquo;</a>' : '<span class="disabled">&laquo;</span> <span class="disabled">&lsaquo;</span>';
+    // The "forward" link -->
+    $nextlink = ($pager['page'] < $pager['pages']) ? '<a href="?page=' . ($pager['page'] + 1) . '" title="Next page">&rsaquo;</a> <a href="?page=' . $pager['pages'] . '" title="Last page">&raquo;</a>' : '<span class="disabled">&rsaquo;</span> <span class="disabled">&raquo;</span>';
+    // Display the paging information 
 
-          ?>
-            <div id="paging" class="text-center my-2 pager">
-                <p> <?php echo $prevlink; ?> Page <?php echo $pager['page']; ?> of <?php echo $pager['pages']; ?> pages, displaying <?php echo $pager['start']; ?> -  <?php  echo $pager['end'];?> of <?php echo $pager['total']; ?> results <?php echo $nextlink; ?></p>
-            </div>
+    ?>
+    <div id="paging" class="text-center my-2 pager">
+        <p> <?php echo $prevlink; ?> Page <?php echo $pager['page']; ?> of <?php echo $pager['pages']; ?> pages, displaying <?php echo $pager['start']; ?> - <?php echo $pager['end']; ?> of <?php echo $pager['total']; ?> results <?php echo $nextlink; ?></p>
+    </div>
 </div>
