@@ -332,11 +332,12 @@ class Database
             // Prepare an insert statement
             $statement = $this->pdo->prepare('UPDATE cart SET  
             quantity = :quantity
-            WHERE user_id = :user_id and product_id = :product_id');
+            WHERE user_id = :user_id and product_id = :product_id and checkout = :checkout ');
                        
               $statement->bindValue(":user_id", $cart->user_id);
               $statement->bindValue(":product_id",$cart->product_id);
               $statement->bindValue(":quantity",$cart->quantity);
+              $statement->bindValue(":checkout",$cart->checkout);
 
               return $statement->execute();
           }
