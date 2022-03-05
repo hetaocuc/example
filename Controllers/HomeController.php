@@ -49,7 +49,14 @@ class HomeController{
         $pager['limit'] = $limit;
         $pager['offset'] = $offset;
 
-        $products = $router->database->getPagedProduct( $pager['limit'],$pager['offset']);
+
+
+        $products = $router->database->getProducts( );
+        if(!empty($products)){
+            $products = $router->database->getPagedProduct( $pager['limit'],$pager['offset']);
+
+        }
+
 
 
         $title = "Home";

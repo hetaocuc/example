@@ -75,9 +75,10 @@ $router -> post('/cart/add', [CartController::class,'add'] );
 $router -> get('/cart', [CartController::class,'index'] );
 $router -> post('/cart/delete', [CartController::class,'delete'] );
 $router -> post('/cart/checkout', [CartController::class,'checkout'] );
+$router -> post('/cart/ajax', [CartController::class,'ajax'] );
 
 
-/////////// Cart
+/////////// Order
 #####################################################################
 $router -> get('/order', [OrderController::class,'index'] );
 $router -> get('/order/detail', [OrderController::class,'detail'] );
