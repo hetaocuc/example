@@ -77,7 +77,7 @@ class CartController
             $cartData['quantity'] = $_POST['quantity'] ?? 1;
 
             $cartData['total_price'] = 0;
-            $cartData['$checkout'] = 0;
+            $cartData['checkout'] = 0;
             $cartData['sn'] = 'null';
 
             $cart = new Cart($cartData);
